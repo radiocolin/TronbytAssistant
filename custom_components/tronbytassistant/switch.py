@@ -76,6 +76,28 @@ async def async_setup_entry(
         if not device_id:
             continue
         entities.append(TronbytNightModeSwitch(coordinator, device_id))
+        entities.append(
+            TronbytModeActiveSwitch(
+                coordinator,
+                device_id,
+                unique_key="night_mode_active",
+                translation_key="night_mode_active_switch",
+                icon="mdi:weather-night",
+                mode_key="night_mode",
+                patch_key="nightModeActive",
+            )
+        )
+        entities.append(
+            TronbytModeActiveSwitch(
+                coordinator,
+                device_id,
+                unique_key="dim_mode_active",
+                translation_key="dim_mode_active_switch",
+                icon="mdi:brightness-6",
+                mode_key="dim_mode",
+                patch_key="dimModeActive",
+            )
+        )
 
         for description in SWITCH_DESCRIPTIONS:
             entities.append(TronbytFirmwareSwitch(coordinator, device_id, description))
@@ -139,6 +161,72 @@ class TronbytNightModeSwitch(CoordinatorEntity, SwitchEntity):
         await self.coordinator.async_patch_device(
             self._deviceid,
             {"nightModeEnabled": enabled},
+        )
+
+
+class TronbytModeActiveSwitch(CoordinatorEntity, SwitchEntity):
+    """Switch for manual night/dim mode overrides."""
+
+    _attr_has_entity_name = True
+    _attr_entity_category = EntityCategory.CONFIG
+
+    def __init__(
+        self,
+        coordinator,
+        device_id: str,
+        *,
+        unique_key: str,
+        translation_key: str,
+        icon: str,
+        mode_key: str,
+        patch_key: str,
+    ) -> None:
+        super().__init__(coordinator)
+        self._deviceid = device_id
+        self._mode_key = mode_key
+        self._patch_key = patch_key
+        self._attr_unique_id = f"tronbyt-{unique_key}-{device_id}"
+        self._attr_translation_key = translation_key
+        self._attr_icon = icon
+
+    def _device(self) -> Optional[dict[str, Any]]:
+        for device in self.coordinator.data or []:
+            if device.get("id") == self._deviceid:
+                return device
+        return None
+
+    def _mode(self) -> Optional[dict[str, Any]]:
+        device = self._device()
+        if not device:
+            return None
+        return device.get(self._mode_key) or {}
+
+    @property
+    def available(self) -> bool:
+        mode = self._mode()
+        return bool(mode and mode.get("enabled"))
+
+    @property
+    def is_on(self) -> bool | None:
+        mode = self._mode()
+        if not mode:
+            return None
+        return mode.get("active")
+
+    @property
+    def device_info(self) -> dict[str, Any]:
+        return build_device_info(self._device(), self._deviceid)
+
+    async def async_turn_on(self, **kwargs: Any) -> None:
+        await self.coordinator.async_patch_device(
+            self._deviceid,
+            {self._patch_key: True},
+        )
+
+    async def async_turn_off(self, **kwargs: Any) -> None:
+        await self.coordinator.async_patch_device(
+            self._deviceid,
+            {self._patch_key: False},
         )
 
 

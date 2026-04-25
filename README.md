@@ -28,6 +28,8 @@ Copy the entirety of `custom_components/tronbytassistant` to your `/config/custo
 - Update Interval (`number`)
 - Pinned App (`select`)
 - Night Mode (`switch`)
+- Night Mode Active (`switch`)
+- Dim Mode Active (`switch`)
 - Night Mode Start (`time`)
 - Night Mode End (`time`)
 - Night Mode Brightness (`light`)

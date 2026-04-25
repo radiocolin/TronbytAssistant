@@ -32,12 +32,20 @@ def device_payload() -> dict[str, Any]:
         "brightness": 80,
         "night_mode": {
             "enabled": True,
+            "active": False,
             "app": "477",
             "start": "21:00",
             "end": "06:15",
             "brightness": 25,
+            "override_until": None,
         },
-        "dim_mode": {"start": "10:00", "brightness": 30},
+        "dim_mode": {
+            "enabled": True,
+            "active": True,
+            "start": "10:00",
+            "brightness": 30,
+            "override_until": "2026-04-25T23:00:00-04:00",
+        },
         "pinned_app": "217",
         "auto_dim": False,
         "info": {
@@ -225,8 +233,10 @@ def test_night_mode_switch_reports_state(coordinator: TronbytCoordinator):
 
 
 @pytest.mark.asyncio
-async def test_night_mode_switch_updates_both_flags(coordinator: TronbytCoordinator):
-    """Switch updates should send both night mode and legacy auto dim flags."""
+async def test_night_mode_switch_updates_enabled_flag(
+    coordinator: TronbytCoordinator,
+):
+    """Night mode enable switch should still patch the schedule flag."""
     entity = switch_mod.TronbytNightModeSwitch(coordinator, "dev1")
     coordinator.async_patch_device = AsyncMock()
 
@@ -234,6 +244,78 @@ async def test_night_mode_switch_updates_both_flags(coordinator: TronbytCoordina
     coordinator.async_patch_device.assert_awaited_once_with(
         "dev1",
         {"nightModeEnabled": False},
+    )
+
+
+def test_mode_active_switch_reports_state_and_availability(
+    coordinator: TronbytCoordinator,
+):
+    """Manual mode switches should mirror the server-reported active state."""
+    night = switch_mod.TronbytModeActiveSwitch(
+        coordinator,
+        "dev1",
+        unique_key="night_mode_active",
+        translation_key="night_mode_active_switch",
+        icon="mdi:weather-night",
+        mode_key="night_mode",
+        patch_key="nightModeActive",
+    )
+    dim = switch_mod.TronbytModeActiveSwitch(
+        coordinator,
+        "dev1",
+        unique_key="dim_mode_active",
+        translation_key="dim_mode_active_switch",
+        icon="mdi:brightness-6",
+        mode_key="dim_mode",
+        patch_key="dimModeActive",
+    )
+
+    assert night.available is True
+    assert night.is_on is False
+    assert dim.available is True
+    assert dim.is_on is True
+
+
+def test_mode_active_switch_unavailable_when_mode_disabled(
+    coordinator: TronbytCoordinator,
+):
+    """Manual override switches should be unavailable if the mode is disabled."""
+    data = deepcopy(coordinator.data[0])
+    data["dim_mode"]["enabled"] = False
+    coordinator.data = [data]
+
+    entity = switch_mod.TronbytModeActiveSwitch(
+        coordinator,
+        "dev1",
+        unique_key="dim_mode_active",
+        translation_key="dim_mode_active_switch",
+        icon="mdi:brightness-6",
+        mode_key="dim_mode",
+        patch_key="dimModeActive",
+    )
+
+    assert entity.available is False
+
+
+@pytest.mark.asyncio
+async def test_mode_active_switch_updates_manual_override(
+    coordinator: TronbytCoordinator,
+):
+    """Manual mode switches should PATCH the new active override fields."""
+    entity = switch_mod.TronbytModeActiveSwitch(
+        coordinator,
+        "dev1",
+        unique_key="night_mode_active",
+        translation_key="night_mode_active_switch",
+        icon="mdi:weather-night",
+        mode_key="night_mode",
+        patch_key="nightModeActive",
+    )
+    coordinator.async_patch_device = AsyncMock()
+
+    await entity.async_turn_on()
+    coordinator.async_patch_device.assert_awaited_once_with(
+        "dev1", {"nightModeActive": True}
     )
 
 

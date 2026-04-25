@@ -92,6 +92,12 @@
       "night_mode_switch": {
         "name": "Night Mode"
       },
+      "night_mode_active_switch": {
+        "name": "Night Mode Active"
+      },
+      "dim_mode_active_switch": {
+        "name": "Dim Mode Active"
+      },
       "installation_switch": {
         "name": "Enable {label}"
       },

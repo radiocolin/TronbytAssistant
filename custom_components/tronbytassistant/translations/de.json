@@ -92,6 +92,12 @@
       "night_mode_switch": {
         "name": "Nachtmodus"
       },
+      "night_mode_active_switch": {
+        "name": "Nachtmodus aktiv"
+      },
+      "dim_mode_active_switch": {
+        "name": "Dimmmodus aktiv"
+      },
       "installation_switch": {
         "name": "Aktiviere {label}"
       },

@@ -97,12 +97,20 @@ async def test_coordinator_fetches_devices_with_installations(hass: HomeAssistan
                         "brightness": 80,
                         "nightMode": {
                             "enabled": True,
+                            "active": False,
                             "app": "123",
                             "startTime": "21:00",
                             "endTime": "06:00",
                             "brightness": 20,
+                            "overrideUntil": None,
                         },
-                        "dimMode": {"startTime": "07:00", "brightness": 10},
+                        "dimMode": {
+                            "enabled": True,
+                            "active": True,
+                            "startTime": "07:00",
+                            "brightness": 10,
+                            "overrideUntil": "2026-04-25T23:00:00-04:00",
+                        },
                         "pinnedApp": "123",
                         "autoDim": False,
                         "info": {
@@ -131,6 +139,9 @@ async def test_coordinator_fetches_devices_with_installations(hass: HomeAssistan
     assert device["name"] == "Living Room"
     assert device["interval"] == 120
     assert device["night_mode"]["app"] == "123"
+    assert device["night_mode"]["active"] is False
+    assert device["dim_mode"]["enabled"] is True
+    assert device["dim_mode"]["active"] is True
     assert device["installations"] == [{"id": "inst1", "enabled": True}]
     assert device["info"]["firmware_version"] == "v1.0.0"
     assert device["info"]["mac_address"] == "aa:bb:cc:dd:ee:ff"
@@ -207,8 +218,20 @@ async def test_async_patch_device_updates_local_state(hass: HomeAssistant):
                 "notes": "Updated note",
                 "intervalSec": 60,
                 "brightness": 90,
-                "nightMode": {"enabled": True, "app": "999", "startTime": "20:00"},
-                "dimMode": {"startTime": "07:00", "brightness": 12},
+                "nightMode": {
+                    "enabled": True,
+                    "active": True,
+                    "app": "999",
+                    "startTime": "20:00",
+                    "overrideUntil": "2026-04-26T06:00:00-04:00",
+                },
+                "dimMode": {
+                    "enabled": True,
+                    "active": False,
+                    "startTime": "07:00",
+                    "brightness": 12,
+                    "overrideUntil": None,
+                },
                 "pinnedApp": "999",
                 "info": {
                     "firmwareVersion": "2.0.0",
@@ -234,8 +257,13 @@ async def test_async_patch_device_updates_local_state(hass: HomeAssistant):
             "notes": "Old",
             "interval": 120,
             "brightness": 80,
-            "night_mode": {"enabled": False, "app": "123"},
-            "dim_mode": {"start": None, "brightness": None},
+            "night_mode": {"enabled": False, "active": False, "app": "123"},
+            "dim_mode": {
+                "enabled": False,
+                "active": False,
+                "start": None,
+                "brightness": None,
+            },
             "pinned_app": "123",
             "auto_dim": False,
             "installations": [],
@@ -249,6 +277,8 @@ async def test_async_patch_device_updates_local_state(hass: HomeAssistant):
     assert session.patch_calls[0][0].endswith("/v0/devices/dev1")
     assert coordinator.data[0]["brightness"] == 90
     assert coordinator.data[0]["night_mode"]["app"] == "999"
+    assert coordinator.data[0]["night_mode"]["active"] is True
+    assert coordinator.data[0]["dim_mode"]["active"] is False
     assert coordinator.data[0]["installations"][0]["id"] == "inst1"
     coordinator.async_set_updated_data.assert_called_once_with(coordinator.data)
 
@@ -279,8 +309,13 @@ async def test_async_patch_installation_updates_local_state(hass: HomeAssistant)
             "notes": "",
             "interval": 120,
             "brightness": 80,
-            "night_mode": {"enabled": True, "app": "123"},
-            "dim_mode": {"start": None, "brightness": None},
+            "night_mode": {"enabled": True, "active": False, "app": "123"},
+            "dim_mode": {
+                "enabled": False,
+                "active": False,
+                "start": None,
+                "brightness": None,
+            },
             "pinned_app": None,
             "auto_dim": False,
             "installations": [{"id": "inst1", "enabled": False, "appID": "App"}],
@@ -321,8 +356,13 @@ def test_merge_device_update_overwrites_fields(hass: HomeAssistant):
             "notes": "Old",
             "interval": 30,
             "brightness": 50,
-            "night_mode": {"enabled": False},
-            "dim_mode": {"start": None, "brightness": None},
+            "night_mode": {"enabled": False, "active": False},
+            "dim_mode": {
+                "enabled": False,
+                "active": False,
+                "start": None,
+                "brightness": None,
+            },
             "pinned_app": None,
             "auto_dim": False,
             "installations": [],
@@ -342,8 +382,13 @@ def test_merge_device_update_overwrites_fields(hass: HomeAssistant):
             "notes": "New note",
             "intervalSec": 120,
             "brightness": 90,
-            "nightMode": {"enabled": True, "app": "abc"},
-            "dimMode": {"startTime": "20:00", "brightness": 5},
+            "nightMode": {"enabled": True, "active": True, "app": "abc"},
+            "dimMode": {
+                "enabled": True,
+                "active": False,
+                "startTime": "20:00",
+                "brightness": 5,
+            },
             "pinnedApp": "abc",
             "info": {
                 "firmwareVersion": "3.0.0",
@@ -357,6 +402,8 @@ def test_merge_device_update_overwrites_fields(hass: HomeAssistant):
     updated = coordinator.data[0]
     assert updated["interval"] == 120
     assert updated["night_mode"]["app"] == "abc"
+    assert updated["night_mode"]["active"] is True
+    assert updated["dim_mode"]["enabled"] is True
     assert updated["dim_mode"]["start"] == "20:00"
     assert updated["installations"] == [{"id": "inst1"}]
     assert updated["info"]["firmware_version"] == "3.0.0"
