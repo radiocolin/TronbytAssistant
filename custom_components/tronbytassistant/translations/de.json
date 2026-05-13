@@ -19,68 +19,68 @@
   "entity": {
     "button": {
       "reboot_button": {
-        "name": "Neu starten"
+        "name": "Gerät: Neu starten"
       }
     },
     "light": {
       "brightness": {
-        "name": "Helligkeit"
+        "name": "Gerät: Helligkeit"
       },
       "night_mode_brightness": {
-        "name": "Nachtmodus-Helligkeit"
+        "name": "Nachtmodus: Helligkeit"
       },
       "dim_mode_brightness": {
-        "name": "Dimmmodus-Helligkeit"
+        "name": "Dimmmodus: Helligkeit"
       }
     },
     "number": {
       "update_interval": {
-        "name": "Aktualisierungsintervall"
+        "name": "Gerät: Aktualisierungsintervall"
       }
     },
     "time": {
       "night_mode_start": {
-        "name": "Nachtmodus-Beginn"
+        "name": "Nachtmodus: Beginn"
       },
       "night_mode_end": {
-        "name": "Nachtmodus-Ende"
+        "name": "Nachtmodus: Ende"
       },
       "dim_mode_start": {
-        "name": "Dimmmodus-Beginn"
+        "name": "Dimmmodus: Beginn"
       }
     },
     "text": {
       "ssid": {
-        "name": "SSID"
+        "name": "Gerät: SSID"
       },
       "image_url": {
-        "name": "Bild-URL"
+        "name": "Gerät: Bild-URL"
       },
       "hostname": {
-        "name": "Hostname"
+        "name": "Gerät: Hostname"
       },
       "sntp_server": {
-        "name": "SNTP-Server"
+        "name": "Gerät: SNTP-Server"
       },
       "syslog_addr": {
-        "name": "Syslog-Adresse"
+        "name": "Gerät: Syslog-Adresse"
       }
     },
     "select": {
       "night_mode_app": {
-        "name": "Nachtmodus-App",
+        "name": "Nachtmodus: App",
         "state": {
           "none": "Keine"
         }
       },
       "pinned_app": {
-        "name": "Angeheftete App",
+        "name": "App: Angeheftet",
         "state": {
           "none": "Keine"
         }
       },
       "wifi_power_save": {
-        "name": "WLAN-Energiesparmodus",
+        "name": "Gerät: WLAN-Energiesparmodus",
         "state": {
           "off": "Aus",
           "min": "Minimum",
@@ -90,34 +90,34 @@
     },
     "switch": {
       "night_mode_switch": {
-        "name": "Nachtmodus-Zeitplan"
+        "name": "Nachtmodus: Geplant"
       },
       "night_mode_active_switch": {
-        "name": "Nachtmodus"
+        "name": "Nachtmodus: Aktiv"
       },
       "dim_mode_switch": {
-        "name": "Dimmmodus-Zeitplan"
+        "name": "Dimmmodus: Geplant"
       },
       "dim_mode_active_switch": {
-        "name": "Dimmmodus"
+        "name": "Dimmmodus: Aktiv"
       },
       "interstitial_switch": {
-        "name": "Zwischenmodus"
+        "name": "App: Interstitial-App"
       },
       "installation_switch": {
-        "name": "Aktiviere {label}"
+        "name": "App: Aktiviere {label}"
       },
       "skip_display_version": {
-        "name": "Display-Version überspringen"
+        "name": "Gerät: Display-Version überspringen"
       },
       "ap_mode": {
-        "name": "AP-Modus"
+        "name": "Gerät: AP-Modus"
       },
       "prefer_ipv6": {
-        "name": "IPv6 bevorzugen"
+        "name": "Gerät: IPv6 bevorzugen"
       },
       "swap_colors": {
-        "name": "Farben vertauschen"
+        "name": "Gerät: Farben vertauschen"
       }
     }
   }

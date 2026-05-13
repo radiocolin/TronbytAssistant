@@ -19,68 +19,68 @@
   "entity": {
     "button": {
       "reboot_button": {
-        "name": "Restart"
+        "name": "Device: Restart"
       }
     },
     "light": {
       "brightness": {
-        "name": "Brightness"
+        "name": "Device: Brightness"
       },
       "night_mode_brightness": {
-        "name": "Night Mode Brightness"
+        "name": "Night Mode: Brightness"
       },
       "dim_mode_brightness": {
-        "name": "Dim Mode Brightness"
+        "name": "Dim Mode: Brightness"
       }
     },
     "number": {
       "update_interval": {
-        "name": "Update Interval"
+        "name": "Device: Update Interval"
       }
     },
     "time": {
       "night_mode_start": {
-        "name": "Night Mode Start"
+        "name": "Night Mode: Start Time"
       },
       "night_mode_end": {
-        "name": "Night Mode End"
+        "name": "Night Mode: End Time"
       },
       "dim_mode_start": {
-        "name": "Dim Mode Start"
+        "name": "Dim Mode: Start Time"
       }
     },
     "text": {
       "ssid": {
-        "name": "SSID"
+        "name": "Device: SSID"
       },
       "image_url": {
-        "name": "Image URL"
+        "name": "Device: Image URL"
       },
       "hostname": {
-        "name": "Hostname"
+        "name": "Device: Hostname"
       },
       "sntp_server": {
-        "name": "SNTP Server"
+        "name": "Device: SNTP Server"
       },
       "syslog_addr": {
-        "name": "Syslog Address"
+        "name": "Device: Syslog Address"
       }
     },
     "select": {
       "night_mode_app": {
-        "name": "Night Mode App",
+        "name": "Night Mode: App",
         "state": {
           "none": "None"
         }
       },
       "pinned_app": {
-        "name": "Pinned App",
+        "name": "App: Pinned",
         "state": {
           "none": "None"
         }
       },
       "wifi_power_save": {
-        "name": "WiFi Power Save",
+        "name": "Device: WiFi Power Save",
         "state": {
           "off": "Off",
           "min": "Minimum",
@@ -90,34 +90,34 @@
     },
     "switch": {
       "night_mode_switch": {
-        "name": "Night Mode Schedule"
+        "name": "Night Mode: Scheduled"
       },
       "night_mode_active_switch": {
-        "name": "Night Mode"
+        "name": "Night Mode: Active"
       },
       "dim_mode_switch": {
-        "name": "Dim Mode Schedule"
+        "name": "Dim Mode: Scheduled"
       },
       "dim_mode_active_switch": {
-        "name": "Dim Mode"
+        "name": "Dim Mode: Active"
       },
       "interstitial_switch": {
-        "name": "Interstitial Mode"
+        "name": "App: Interstitial App"
       },
       "installation_switch": {
-        "name": "Enable {label}"
+        "name": "App: Enable {label}"
       },
       "skip_display_version": {
-        "name": "Skip Display Version"
+        "name": "Device: Skip Display Version"
       },
       "ap_mode": {
-        "name": "AP Mode"
+        "name": "Device: AP Mode"
       },
       "prefer_ipv6": {
-        "name": "Prefer IPv6"
+        "name": "Device: Prefer IPv6"
       },
       "swap_colors": {
-        "name": "Swap Colors"
+        "name": "Device: Swap Colors"
       }
     }
   }

@@ -126,7 +126,7 @@ async def async_setup_entry(
                 device_id,
                 unique_key="interstitial_enabled",
                 translation_key="interstitial_switch",
-                icon="mdi:pause-circle",
+                icon="mdi:update",
                 mode_key="interstitial",
                 patch_key="interstitialEnabled",
             )
