@@ -75,7 +75,18 @@ async def async_setup_entry(
         device_id = device.get("id")
         if not device_id:
             continue
-        entities.append(TronbytNightModeSwitch(coordinator, device_id))
+        entities.append(
+            TronbytModeEnabledSwitch(
+                coordinator,
+                device_id,
+                unique_key="night_mode_enabled",
+                translation_key="night_mode_switch",
+                icon="mdi:brightness-auto",
+                mode_key="night_mode",
+                patch_key="nightModeEnabled",
+                fallback_key="auto_dim",
+            )
+        )
         entities.append(
             TronbytModeActiveSwitch(
                 coordinator,
@@ -88,6 +99,17 @@ async def async_setup_entry(
             )
         )
         entities.append(
+            TronbytModeEnabledSwitch(
+                coordinator,
+                device_id,
+                unique_key="dim_mode_enabled",
+                translation_key="dim_mode_switch",
+                icon="mdi:brightness-4",
+                mode_key="dim_mode",
+                patch_key="dimModeEnabled",
+            )
+        )
+        entities.append(
             TronbytModeActiveSwitch(
                 coordinator,
                 device_id,
@@ -96,6 +118,17 @@ async def async_setup_entry(
                 icon="mdi:brightness-6",
                 mode_key="dim_mode",
                 patch_key="dimModeActive",
+            )
+        )
+        entities.append(
+            TronbytModeEnabledSwitch(
+                coordinator,
+                device_id,
+                unique_key="interstitial_enabled",
+                translation_key="interstitial_switch",
+                icon="mdi:pause-circle",
+                mode_key="interstitial",
+                patch_key="interstitialEnabled",
             )
         )
 
@@ -114,18 +147,32 @@ async def async_setup_entry(
         async_add_entities(entities)
 
 
-class TronbytNightModeSwitch(CoordinatorEntity, SwitchEntity):
-    """Expose the Tronbyt night mode flag as a switch."""
+class TronbytModeEnabledSwitch(CoordinatorEntity, SwitchEntity):
+    """Expose a Tronbyt mode enable flag as a switch."""
 
     _attr_has_entity_name = True
-    _attr_icon = "mdi:brightness-auto"
     _attr_entity_category = EntityCategory.CONFIG
-    _attr_translation_key = "night_mode_switch"
 
-    def __init__(self, coordinator, device_id: str) -> None:
+    def __init__(
+        self,
+        coordinator,
+        device_id: str,
+        *,
+        unique_key: str,
+        translation_key: str,
+        icon: str,
+        mode_key: str,
+        patch_key: str,
+        fallback_key: str | None = None,
+    ) -> None:
         super().__init__(coordinator)
         self._deviceid = device_id
-        self._attr_unique_id = f"tronbytnightmode-{device_id}"
+        self._mode_key = mode_key
+        self._patch_key = patch_key
+        self._fallback_key = fallback_key
+        self._attr_unique_id = f"tronbyt-{unique_key}-{device_id}"
+        self._attr_translation_key = translation_key
+        self._attr_icon = icon
 
     def _device(self) -> Optional[dict[str, Any]]:
         for device in self.coordinator.data or []:
@@ -133,34 +180,40 @@ class TronbytNightModeSwitch(CoordinatorEntity, SwitchEntity):
                 return device
         return None
 
+    def _mode(self) -> Optional[dict[str, Any]]:
+        device = self._device()
+        if not device:
+            return None
+        return device.get(self._mode_key) or {}
+
     @property
     def available(self) -> bool:
         return self._device() is not None
 
     @property
     def is_on(self) -> bool | None:
-        device = self._device()
-        if not device:
-            return None
-        night = device.get("night_mode") or {}
-        if night.get("enabled") is not None:
-            return night.get("enabled")
-        return device.get("auto_dim")
+        mode = self._mode()
+        if mode and mode.get("enabled") is not None:
+            return mode.get("enabled")
+        if self._fallback_key:
+            device = self._device()
+            return device.get(self._fallback_key) if device else None
+        return None
 
     @property
     def device_info(self) -> dict[str, Any]:
         return build_device_info(self._device(), self._deviceid)
 
     async def async_turn_on(self, **kwargs: Any) -> None:
-        await self._async_set_night_mode(True)
+        await self._async_set_mode(True)
 
     async def async_turn_off(self, **kwargs: Any) -> None:
-        await self._async_set_night_mode(False)
+        await self._async_set_mode(False)
 
-    async def _async_set_night_mode(self, enabled: bool) -> None:
+    async def _async_set_mode(self, enabled: bool) -> None:
         await self.coordinator.async_patch_device(
             self._deviceid,
-            {"nightModeEnabled": enabled},
+            {self._patch_key: enabled},
         )
 
 
@@ -212,6 +265,16 @@ class TronbytModeActiveSwitch(CoordinatorEntity, SwitchEntity):
         if not mode:
             return None
         return mode.get("active")
+
+    @property
+    def extra_state_attributes(self) -> dict[str, Any]:
+        """Return the state attributes."""
+        mode = self._mode()
+        if not mode:
+            return {}
+        return {
+            "override_until": mode.get("override_until"),
+        }
 
     @property
     def device_info(self) -> dict[str, Any]:

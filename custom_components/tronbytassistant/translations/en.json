@@ -90,13 +90,19 @@
     },
     "switch": {
       "night_mode_switch": {
-        "name": "Night Mode"
+        "name": "Night Mode Schedule"
       },
       "night_mode_active_switch": {
-        "name": "Night Mode Active"
+        "name": "Night Mode"
+      },
+      "dim_mode_switch": {
+        "name": "Dim Mode Schedule"
       },
       "dim_mode_active_switch": {
-        "name": "Dim Mode Active"
+        "name": "Dim Mode"
+      },
+      "interstitial_switch": {
+        "name": "Interstitial Mode"
       },
       "installation_switch": {
         "name": "Enable {label}"

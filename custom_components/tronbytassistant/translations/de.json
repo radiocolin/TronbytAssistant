@@ -90,13 +90,19 @@
     },
     "switch": {
       "night_mode_switch": {
-        "name": "Nachtmodus"
+        "name": "Nachtmodus-Zeitplan"
       },
       "night_mode_active_switch": {
-        "name": "Nachtmodus aktiv"
+        "name": "Nachtmodus"
+      },
+      "dim_mode_switch": {
+        "name": "Dimmmodus-Zeitplan"
       },
       "dim_mode_active_switch": {
-        "name": "Dimmmodus aktiv"
+        "name": "Dimmmodus"
+      },
+      "interstitial_switch": {
+        "name": "Zwischenmodus"
       },
       "installation_switch": {
         "name": "Aktiviere {label}"

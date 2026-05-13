@@ -22,6 +22,7 @@ from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.typing import ConfigType
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from homeassistant.util.color import color_rgb_to_hex, color_name_to_rgb
+from homeassistant.util import dt as dt_util
 
 from .const import (
     ATTR_ARGS,
@@ -686,16 +687,24 @@ class TronbytCoordinator(DataUpdateCoordinator[list[dict[str, Any]]]):
                 "start": night.get("startTime"),
                 "end": night.get("endTime"),
                 "brightness": night.get("brightness"),
-                "override_until": night.get("overrideUntil"),
+                "override_until": dt_util.parse_datetime(night.get("overrideUntil"))
+                    if night.get("overrideUntil")
+                    else None,
             },
             "dim_mode": {
                 "enabled": dim.get("enabled"),
                 "active": dim.get("active"),
                 "start": dim.get("startTime"),
                 "brightness": dim.get("brightness"),
-                "override_until": dim.get("overrideUntil"),
+                "override_until": dt_util.parse_datetime(dim.get("overrideUntil"))
+                    if dim.get("overrideUntil")
+                    else None,
             },
             "pinned_app": payload.get("pinnedApp"),
+            "interstitial": {
+                "enabled": (payload.get("interstitial") or {}).get("enabled"),
+                "app": (payload.get("interstitial") or {}).get("app"),
+            },
             "auto_dim": payload.get("autoDim"),
             "info": {
                 "firmware_version": info.get("firmwareVersion"),
