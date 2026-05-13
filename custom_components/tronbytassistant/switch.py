@@ -25,7 +25,7 @@ class TronbytSwitchDescription:
     value_fn: Callable[[dict[str, Any]], bool | None]
     patch_key: str
     entity_registry_enabled_default: bool = True
-    entity_category: EntityCategory | None = EntityCategory.CONFIG
+    entity_category: EntityCategory | None = EntityCategory.DIAGNOSTIC
 
 
 SWITCH_DESCRIPTIONS: tuple[TronbytSwitchDescription, ...] = (
@@ -221,7 +221,6 @@ class TronbytModeActiveSwitch(CoordinatorEntity, SwitchEntity):
     """Switch for manual night/dim mode overrides."""
 
     _attr_has_entity_name = True
-    _attr_entity_category = EntityCategory.CONFIG
 
     def __init__(
         self,

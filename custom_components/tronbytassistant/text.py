@@ -22,7 +22,7 @@ class TronbytTextDescription:
     value_fn: Callable[[dict[str, Any]], str | None]
     patch_key: str
     entity_registry_enabled_default: bool = True
-    entity_category: EntityCategory | None = EntityCategory.CONFIG
+    entity_category: EntityCategory | None = EntityCategory.DIAGNOSTIC
 
 
 TEXT_DESCRIPTIONS: tuple[TronbytTextDescription, ...] = (

@@ -32,9 +32,16 @@ SELECT_DESCRIPTIONS: tuple[TronbytSelectDescription, ...] = (
     TronbytSelectDescription(
         key="night_mode_app",
         translation_key="night_mode_app",
-        icon="mdi:application",
+        icon="mdi:weather-night",
         value_fn=lambda device: (device.get("night_mode") or {}).get("app"),
         patch_key="nightModeApp",
+    ),
+    TronbytSelectDescription(
+        key="interstitial_app",
+        translation_key="interstitial_app",
+        icon="mdi:update",
+        value_fn=lambda device: (device.get("interstitial") or {}).get("app"),
+        patch_key="interstitialApp",
     ),
     TronbytSelectDescription(
         key="pinned_app",
@@ -42,6 +49,7 @@ SELECT_DESCRIPTIONS: tuple[TronbytSelectDescription, ...] = (
         icon="mdi:pin",
         value_fn=lambda device: device.get("pinned_app"),
         patch_key="pinnedApp",
+        entity_category=None,
     ),
 )
 
@@ -70,6 +78,7 @@ CONFIG_SELECT_DESCRIPTIONS: tuple[TronbytConfigSelectDescription, ...] = (
             "min": 1,
             "max": 2,
         },
+        entity_category=EntityCategory.DIAGNOSTIC,
     ),
 )
 

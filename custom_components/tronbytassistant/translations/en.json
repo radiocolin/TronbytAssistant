@@ -73,6 +73,12 @@
           "none": "None"
         }
       },
+      "interstitial_app": {
+        "name": "App: Interstitial App",
+        "state": {
+          "none": "None"
+        }
+      },
       "pinned_app": {
         "name": "App: Pinned",
         "state": {
@@ -102,7 +108,7 @@
         "name": "Dim Mode: Active"
       },
       "interstitial_switch": {
-        "name": "App: Interstitial App"
+        "name": "App: Use Interstitial App"
       },
       "installation_switch": {
         "name": "App: Enable {label}"

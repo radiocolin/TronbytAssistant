@@ -37,7 +37,7 @@ class TronbytButton(CoordinatorEntity, ButtonEntity):
 
     _attr_has_entity_name = True
     _attr_translation_key = "reboot_button"
-    _attr_entity_category = EntityCategory.CONFIG
+    _attr_entity_category = EntityCategory.DIAGNOSTIC
     _attr_device_class = "restart"
 
     def __init__(self, coordinator, device_id: str) -> None:

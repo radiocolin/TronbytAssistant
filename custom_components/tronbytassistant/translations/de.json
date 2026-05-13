@@ -73,6 +73,12 @@
           "none": "Keine"
         }
       },
+      "interstitial_app": {
+        "name": "App: Interstitial-App",
+        "state": {
+          "none": "Keine"
+        }
+      },
       "pinned_app": {
         "name": "App: Angeheftet",
         "state": {
@@ -102,7 +108,7 @@
         "name": "Dimmmodus: Aktiv"
       },
       "interstitial_switch": {
-        "name": "App: Interstitial-App"
+        "name": "App: Interstitial-App verwenden"
       },
       "installation_switch": {
         "name": "App: Aktiviere {label}"
