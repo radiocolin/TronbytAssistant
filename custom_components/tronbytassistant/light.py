@@ -58,22 +58,6 @@ LIGHT_DESCRIPTIONS: tuple[TronbytLightDescription, ...] = (
         value_path=["brightness"],
         patch_key="brightness",
     ),
-    TronbytLightDescription(
-        key="night_mode_brightness",
-        translation_key="night_mode_brightness",
-        icon="mdi:brightness-6",
-        value_path=["night_mode", "brightness"],
-        patch_key="nightModeBrightness",
-        default_on=128,
-    ),
-    TronbytLightDescription(
-        key="dim_mode_brightness",
-        translation_key="dim_mode_brightness",
-        icon="mdi:brightness-4",
-        value_path=["dim_mode", "brightness"],
-        patch_key="dimModeBrightness",
-        default_on=128,
-    ),
 )
 
 

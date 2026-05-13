@@ -43,6 +43,28 @@ NUMBER_DESCRIPTIONS: tuple[TronbytNumberDescription, ...] = (
         unit="s",
         entity_category=EntityCategory.CONFIG,
     ),
+    TronbytNumberDescription(
+        key="night_mode_brightness",
+        translation_key="night_mode_brightness",
+        icon="mdi:brightness-6",
+        min_value=0,
+        max_value=100,
+        step=1,
+        value_fn=lambda device: (device.get("night_mode") or {}).get("brightness"),
+        patch_key="nightModeBrightness",
+        entity_category=EntityCategory.CONFIG,
+    ),
+    TronbytNumberDescription(
+        key="dim_mode_brightness",
+        translation_key="dim_mode_brightness",
+        icon="mdi:brightness-4",
+        min_value=0,
+        max_value=100,
+        step=1,
+        value_fn=lambda device: (device.get("dim_mode") or {}).get("brightness"),
+        patch_key="dimModeBrightness",
+        entity_category=EntityCategory.CONFIG,
+    ),
 )
 
 
