@@ -22,12 +22,11 @@
         "name": "Device: Restart"
       }
     },
-    "light": {
+    "light": {},
+    "number": {
       "brightness": {
         "name": "Device: Brightness"
-      }
-    },
-    "number": {
+      },
       "update_interval": {
         "name": "Device: Update Interval"
       },

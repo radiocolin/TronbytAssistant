@@ -50,15 +50,7 @@ class TronbytLightDescription:
     entity_category: EntityCategory | None = EntityCategory.CONFIG
 
 
-LIGHT_DESCRIPTIONS: tuple[TronbytLightDescription, ...] = (
-    TronbytLightDescription(
-        key="brightness",
-        translation_key="brightness",
-        icon="mdi:television-ambient-light",
-        value_path=["brightness"],
-        patch_key="brightness",
-    ),
-)
+LIGHT_DESCRIPTIONS: tuple[TronbytLightDescription, ...] = ()
 
 
 async def async_setup_entry(

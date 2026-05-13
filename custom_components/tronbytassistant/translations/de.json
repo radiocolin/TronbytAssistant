@@ -22,15 +22,12 @@
         "name": "Gerät: Neu starten"
       }
     },
-    "light": {
+    "light": {},
+    "number": {
       "brightness": {
         "name": "Gerät: Helligkeit"
-      }
-    },
-    "number": {
-      "update_interval": {
-        "name": "Gerät: Aktualisierungsintervall"
       },
+      "update_interval": {
       "night_mode_brightness": {
         "name": "Nachtmodus: Helligkeit"
       },

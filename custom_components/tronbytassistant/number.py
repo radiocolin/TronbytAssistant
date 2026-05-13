@@ -44,6 +44,16 @@ NUMBER_DESCRIPTIONS: tuple[TronbytNumberDescription, ...] = (
         entity_category=EntityCategory.CONFIG,
     ),
     TronbytNumberDescription(
+        key="brightness",
+        translation_key="brightness",
+        icon="mdi:television-ambient-light",
+        min_value=0,
+        max_value=100,
+        step=1,
+        value_fn=lambda device: device.get("brightness"),
+        patch_key="brightness",
+    ),
+    TronbytNumberDescription(
         key="night_mode_brightness",
         translation_key="night_mode_brightness",
         icon="mdi:brightness-6",
