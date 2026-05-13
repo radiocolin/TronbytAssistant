@@ -678,32 +678,32 @@ class TronbytCoordinator(DataUpdateCoordinator[list[dict[str, Any]]]):
             or payload.get("id"),
             "type": payload.get("type"),
             "notes": payload.get("notes"),
-            "interval": payload.get("intervalSec"),
+            "interval": payload.get("default_interval"),
             "brightness": payload.get("brightness"),
             "night_mode": {
-                "enabled": night.get("enabled"),
-                "active": night.get("active"),
-                "app": night.get("app"),
-                "start": night.get("startTime"),
-                "end": night.get("endTime"),
+                "enabled": payload.get("night_mode_enabled"),
+                "active": payload.get("night_mode_active"),
+                "app": payload.get("night_mode_app"),
+                "start": payload.get("night_start"),
+                "end": payload.get("night_end"),
                 "brightness": payload.get("night_brightness"),
-                "override_until": dt_util.parse_datetime(night.get("overrideUntil"))
-                    if night.get("overrideUntil")
+                "override_until": dt_util.parse_datetime(payload.get("night_mode_override_until"))
+                    if payload.get("night_mode_override_until")
                     else None,
             },
             "dim_mode": {
-                "enabled": dim.get("enabled"),
-                "active": dim.get("active"),
-                "start": dim.get("startTime"),
+                "enabled": payload.get("dim_mode_enabled"),
+                "active": payload.get("dim_mode_active"),
+                "start": payload.get("dim_time"),
                 "brightness": payload.get("dim_brightness"),
-                "override_until": dt_util.parse_datetime(dim.get("overrideUntil"))
-                    if dim.get("overrideUntil")
+                "override_until": dt_util.parse_datetime(payload.get("dim_mode_override_until"))
+                    if payload.get("dim_mode_override_until")
                     else None,
             },
-            "pinned_app": payload.get("pinnedApp"),
+            "pinned_app": payload.get("pinned_app"),
             "interstitial": {
-                "enabled": (payload.get("interstitial") or {}).get("enabled"),
-                "app": (payload.get("interstitial") or {}).get("app"),
+                "enabled": payload.get("interstitial_enabled"),
+                "app": payload.get("interstitial_app"),
             },
             "auto_dim": payload.get("autoDim"),
             "info": {
