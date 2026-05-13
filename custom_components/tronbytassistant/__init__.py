@@ -686,7 +686,7 @@ class TronbytCoordinator(DataUpdateCoordinator[list[dict[str, Any]]]):
                 "app": night.get("app"),
                 "start": night.get("startTime"),
                 "end": night.get("endTime"),
-                "brightness": payload.get("nightModeBrightness"),
+                "brightness": payload.get("night_brightness"),
                 "override_until": dt_util.parse_datetime(night.get("overrideUntil"))
                     if night.get("overrideUntil")
                     else None,
@@ -695,7 +695,7 @@ class TronbytCoordinator(DataUpdateCoordinator[list[dict[str, Any]]]):
                 "enabled": dim.get("enabled"),
                 "active": dim.get("active"),
                 "start": dim.get("startTime"),
-                "brightness": payload.get("dimModeBrightness"),
+                "brightness": payload.get("dim_brightness"),
                 "override_until": dt_util.parse_datetime(dim.get("overrideUntil"))
                     if dim.get("overrideUntil")
                     else None,
