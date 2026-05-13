@@ -25,17 +25,17 @@
     "light": {
       "brightness": {
         "name": "Gerät: Helligkeit"
+      }
+    },
+    "number": {
+      "update_interval": {
+        "name": "Gerät: Aktualisierungsintervall"
       },
       "night_mode_brightness": {
         "name": "Nachtmodus: Helligkeit"
       },
       "dim_mode_brightness": {
         "name": "Dimmmodus: Helligkeit"
-      }
-    },
-    "number": {
-      "update_interval": {
-        "name": "Gerät: Aktualisierungsintervall"
       }
     },
     "time": {
