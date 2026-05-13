@@ -115,7 +115,7 @@ async def async_setup_entry(
                 device_id,
                 unique_key="dim_mode_active",
                 translation_key="dim_mode_active_switch",
-                icon="mdi:brightness-6",
+                icon="mdi:brightness-4",
                 mode_key="dim_mode",
                 patch_key="dimModeActive",
             )
